@@ -1,0 +1,149 @@
+/* ============================================
+   HISTORY COMPONENT
+   ============================================ */
+
+.history-section {
+    background-color: var(--bg-secondary);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.history-section h2 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-md);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.history-section h2 i {
+    color: #2196F3;
+}
+
+/* History List */
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.empty-history {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: var(--spacing-xl);
+    font-style: italic;
+}
+
+/* History Item */
+.history-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background-color: var(--bg-primary);
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    border: 1px solid transparent;
+}
+
+.history-item:hover {
+    transform: translateX(4px);
+    border-color: var(--border-color);
+    background-color: var(--bg-secondary);
+}
+
+.history-item i {
+    color: #2196F3;
+    font-size: var(--font-size-md);
+}
+
+.history-city {
+    flex: 1;
+    margin-left: var(--spacing-md);
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+/* History Delete Button */
+.history-delete {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--border-radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    opacity: 0;
+    visibility: hidden;
+}
+
+.history-item:hover .history-delete {
+    opacity: 1;
+    visibility: visible;
+}
+
+.history-delete:hover {
+    background-color: rgba(244, 67, 54, 0.1);
+    color: #F44336;
+}
+
+/* Clear History Button */
+.clear-history {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background-color: transparent;
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius-full);
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.clear-history:hover {
+    border-color: #F44336;
+    color: #F44336;
+}
+
+/* Responsive History */
+@media (max-width: 768px) {
+    .history-section {
+        padding: var(--spacing-md);
+    }
+    
+    .history-item {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+    
+    .history-city {
+        font-size: var(--font-size-sm);
+    }
+    
+    .history-delete {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+@media (max-width: 480px) {
+    .history-item {
+        padding: var(--spacing-sm);
+    }
+    
+    .history-item i {
+        font-size: var(--font-size-sm);
+    }
+    
+    .history-city {
+        font-size: var(--font-size-xs);
+        margin-left: var(--spacing-sm);
+    }
+}

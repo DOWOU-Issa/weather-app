@@ -1,0 +1,117 @@
+/* ============================================
+   THEME TRANSITIONS
+   ============================================ */
+
+/* Transition globale pour le changement de theme */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+    -webkit-transition: all var(--transition-normal) !important;
+    transition: all var(--transition-normal) !important;
+    -webkit-transition-property: background-color, border-color, color, fill, stroke, box-shadow !important;
+    transition-property: background-color, border-color, color, fill, stroke, box-shadow !important;
+}
+
+/* Prevention des transitions au chargement pour eviter les FOUC */
+html.preload,
+html.preload *,
+html.preload *::before,
+html.preload *::after {
+    -webkit-transition: none !important;
+    transition: none !important;
+}
+
+/* Animation du changement de theme */
+@keyframes themeFade {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Applique une animation subtile lors du changement de theme */
+.theme-transition body {
+    -webkit-animation: themeFade var(--transition-normal) ease-in-out;
+    animation: themeFade var(--transition-normal) ease-in-out;
+}
+
+/* Transition specifique pour les cartes */
+.weather-card,
+.charts-section,
+.history-section {
+    -webkit-transition: -webkit-transform var(--transition-normal), box-shadow var(--transition-normal), background-color var(--transition-normal);
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal), background-color var(--transition-normal);
+}
+
+/* Transition pour les boutons */
+button,
+.theme-toggle,
+.location-btn,
+.export-btn,
+.chart-btn {
+    -webkit-transition: -webkit-transform var(--transition-fast), background-color var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
+    transition: transform var(--transition-fast), background-color var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+/* Transition pour les inputs */
+input,
+textarea,
+select {
+    -webkit-transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
+}
+
+/* Transition pour les liens */
+a {
+    -webkit-transition: color var(--transition-fast);
+    transition: color var(--transition-fast);
+}
+
+/* Animation pour l'apparition des notifications */
+.notification {
+    -webkit-transition: -webkit-transform var(--transition-normal), opacity var(--transition-normal);
+    transition: transform var(--transition-normal), opacity var(--transition-normal);
+}
+
+/* Animation pour le loader */
+.loader {
+    -webkit-transition: opacity var(--transition-normal), visibility var(--transition-normal);
+    transition: opacity var(--transition-normal), visibility var(--transition-normal);
+}
+
+/* Reduction des mouvements pour l'accessibilite */
+@media (prefers-reduced-motion: reduce) {
+    html.theme-transition,
+    html.theme-transition *,
+    html.theme-transition *::before,
+    html.theme-transition *::after {
+        -webkit-transition: none !important;
+        transition: none !important;
+    }
+    
+    .theme-transition body {
+        -webkit-animation: none !important;
+        animation: none !important;
+    }
+    
+    .weather-card,
+    .charts-section,
+    .history-section,
+    button,
+    .theme-toggle,
+    .location-btn,
+    .export-btn,
+    .chart-btn,
+    input,
+    textarea,
+    select,
+    a,
+    .notification,
+    .loader {
+        -webkit-transition: none !important;
+        transition: none !important;
+    }
+}

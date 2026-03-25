@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="auto">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="WeatherApp - Application météo professionnelle avec prévisions précises, graphiques interactifs et mode sombre">
+    <meta name="keywords" content="météo, weather, prévisions, température, vent, humidité, graphiques, export">
+    <meta name="author" content="WeatherApp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <title>WeatherApp - Météo professionnelle</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Chart.js & jsPDF -->
+    <script src="js/vendors/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <!-- Main CSS (ton architecture) -->
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Critical CSS pour éviter le FOUC -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        body.loaded {
+            opacity: 1;
+        }
+        
+        /* Initial Loader */
+        .initial-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .initial-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader-content {
+            text-align: center;
+            animation: fadeInUp 0.6s ease;
+        }
+        
+        .loader-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        .loader-text {
+            color: white;
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            .initial-loader,
+            .loader-spinner,
+            .loader-content {
+                animation: none;
+                transition: none;
+            }
+        }
+        /* Export Dropdown - Design Amélioré */
+.export-dropdown {
+    position: relative;
+}
+
+.export-trigger {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--bg-primary);
+    border: 2px solid var(--border-color);
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.export-trigger:hover {
+    background: #2196F3;
+    border-color: #2196F3;
+    color: white;
+    transform: scale(1.05);
+}
+
+.export-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-lg);
+    min-width: 160px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.export-menu.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.export-option {
+    width: 100%;
+    padding: 12px 18px;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.export-option i {
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+}
+
+.export-option:hover {
+    background: var(--bg-primary);
+}
+
+.export-option[data-format="json"]:hover i {
+    color: #f7b32b;
+}
+
+.export-option[data-format="csv"]:hover i {
+    color: #2ecc71;
+}
+
+.export-option[data-format="pdf"]:hover i {
+    color: #e74c3c;
+}
+
+/* Séparateur dans le menu */
+.export-option:not(:last-child) {
+    border-bottom: 1px solid var(--border-color);
+}
+    </style>
+</head>
+<body>
+    <!-- Initial Loader -->
+    <div id="initialLoader" class="initial-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">WeatherApp</div>
+        </div>
+    </div>
+    
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header" role="banner">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-cloud-sun" aria-hidden="true"></i>
+                    <span>Weather<span class="logo-highlight">App</span></span>
+                </div>
+                <div class="header-controls">
+                    <!-- Theme Toggle -->
+                    <button class="theme-toggle" id="themeToggle" aria-label="Changer de thème" title="Changer de thème">
+                        <i class="fas fa-moon" aria-hidden="true"></i>
+                        <span class="sr-only">Changer le thème</span>
+                    </button>
+                    
+                    <!-- Location Button -->
+                    <button class="location-btn" id="locationBtn" aria-label="Ma position" title="Météo à ma position">
+                        <i class="fas fa-location-dot" aria-hidden="true"></i>
+                        <span class="sr-only">Ma position</span>
+                    </button>
+                    
+                    <!-- Export Dropdown -->
+                    <div class="export-dropdown">
+                        <button class="export-trigger" id="exportTrigger" aria-label="Exporter" title="Exporter les données">
+                            <i class="fas fa-download" aria-hidden="true"></i>
+                        </button>
+                        <div class="export-menu" id="exportMenu">
+                            <button class="export-option" data-format="json">
+                                <i class="fas fa-file-code"></i> JSON
+                            </button>
+                            <button class="export-option" data-format="csv">
+                                <i class="fas fa-file-csv"></i> CSV
+                            </button>
+                            <button class="export-option" data-format="pdf">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <main class="main-content" role="main">
+            <!-- Search Section -->
+            <section class="search-section" aria-label="Recherche météo">
+                <div class="search-container">
+                    <div class="search-input-wrapper">
+                        <i class="fas fa-search search-icon" aria-hidden="true"></i>
+                        <input type="text" 
+                               id="city-search" 
+                               name="city"
+                               class="city-search-input"
+                               placeholder="Rechercher une ville (Paris, London, New York, Tokyo)..." 
+                               autocomplete="off"
+                               aria-label="Nom de la ville"
+                               spellcheck="false">
+                        <button class="clear-search" id="clearSearch" aria-label="Effacer" title="Effacer">
+                            <i class="fas fa-times" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div id="autocomplete-list" class="autocomplete-list" role="listbox" aria-label="Suggestions de villes"></div>
+                </div>
+            </section>
+            
+            <!-- Weather Display -->
+            <div id="weather-display" class="weather-display hidden">
+                <!-- Current Weather Card -->
+                <article class="weather-card current-weather" aria-label="Météo actuelle">
+                    <!-- Dynamic content via UIRenderer -->
+                </article>
+                
+                <!-- Charts Section -->
+                <section class="charts-section" aria-label="Graphiques météo">
+                    <div class="charts-header">
+                        <h2>
+                            <i class="fas fa-chart-line" aria-hidden="true"></i>
+                            Prévisions 5 jours
+                        </h2>
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <span class="legend-color temperature"></span>
+                                <span>Température (°C)</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color humidity"></span>
+                                <span>Humidité (%)</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color wind"></span>
+                                <span>Vent (km/h)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="weather-chart" aria-label="Graphique des prévisions météo" role="img">
+                            <p>Graphique des prévisions météo : température, humidité et vitesse du vent sur 7 jours</p>
+                        </canvas>
+                    </div>
+                    <div class="chart-controls">
+                        <button class="chart-btn active" data-chart="temperature" aria-label="Afficher le graphique de température">
+                            <i class="fas fa-thermometer-half"></i> Température
+                        </button>
+                        <button class="chart-btn" data-chart="humidity" aria-label="Afficher le graphique d'humidité">
+                            <i class="fas fa-tint"></i> Humidité
+                        </button>
+                        <button class="chart-btn" data-chart="wind" aria-label="Afficher le graphique de vent">
+                            <i class="fas fa-wind"></i> Vent
+                        </button>
+                        <button class="chart-btn" data-chart="combined" aria-label="Afficher le graphique combiné">
+                            <i class="fas fa-chart-line"></i> Combiné
+                        </button>
+                    </div>
+                </section>
+                
+                <!-- Quick Stats -->
+                <div class="quick-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-chart-simple" aria-hidden="true"></i>
+                        <div class="stat-info">
+                            <span class="stat-label">Température moyenne</span>
+                            <span class="stat-value" id="avg-temp">--°C</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-droplet" aria-hidden="true"></i>
+                        <div class="stat-info">
+                            <span class="stat-label">Humidité moyenne</span>
+                            <span class="stat-value" id="avg-humidity">--%</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-gauge-high" aria-hidden="true"></i>
+                        <div class="stat-info">
+                            <span class="stat-label">Vent moyen</span>
+                            <span class="stat-value" id="avg-wind">-- km/h</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- History Section -->
+            <section class="history-section" aria-label="Historique des recherches">
+                <div class="history-header">
+                    <h2>
+                        <i class="fas fa-history" aria-hidden="true"></i>
+                        Recherches récentes
+                    </h2>
+                    <button class="clear-history" id="clearHistoryBtn" aria-label="Effacer tout l'historique" title="Effacer l'historique">
+                        <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                        <span>Effacer</span>
+                    </button>
+                </div>
+                <div id="history-list" class="history-list">
+                    <div class="empty-history">
+                        <i class="fas fa-search"></i>
+                        <p>Aucune recherche récente</p>
+                        <span>Recherchez une ville pour commencer</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <!-- Footer -->
+        <footer class="footer" role="contentinfo">
+            <div class="footer-content">
+                <p class="copyright">
+                    <i class="fas fa-copyright" aria-hidden="true"></i> 2024 WeatherApp
+                </p>
+                <p class="credit">
+                    Données fournies par 
+                    <a href="https://openweathermap.org/" target="_blank" rel="noopener noreferrer">
+                        OpenWeatherMap
+                        <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                    </a>
+                </p>
+                <p class="version" id="app-version">
+                    <i class="fas fa-code-branch" aria-hidden="true"></i> Version 1.0.0
+                </p>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Loader -->
+    <div id="loader" class="loader hidden" role="status" aria-label="Chargement">
+        <div class="spinner-container">
+            <div class="spinner"></div>
+            <div class="spinner-text">Chargement des données météo...</div>
+        </div>
+    </div>
+    
+    <!-- Notification Container -->
+    <div id="notifications" class="notifications" role="alert" aria-live="polite"></div>
+    
+    <!-- Main App Script -->
+    <script type="module" src="js/app.js"></script>
+    
+    <!-- Initialization Script -->
+    <script>
+        // Cache l'initial loader quand la page est chargée
+        window.addEventListener('load', () => {
+            const initialLoader = document.getElementById('initialLoader');
+            if (initialLoader) {
+                setTimeout(() => {
+                    initialLoader.classList.add('hidden');
+                    document.body.classList.add('loaded');
+                }, 800);
+            }
+        });
+        
+        // Gestion du dropdown export
+        document.addEventListener('DOMContentLoaded', () => {
+            const exportTrigger = document.getElementById('exportTrigger');
+            const exportMenu = document.getElementById('exportMenu');
+            
+            if (exportTrigger && exportMenu) {
+                exportTrigger.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    exportMenu.classList.toggle('visible');
+                });
+                
+                document.addEventListener('click', () => {
+                    exportMenu.classList.remove('visible');
+                });
+                
+                exportMenu.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                });
+            }
+            
+            // Clear search button
+            const clearSearch = document.getElementById('clearSearch');
+            const citySearch = document.getElementById('city-search');
+            if (clearSearch && citySearch) {
+                clearSearch.addEventListener('click', () => {
+                    citySearch.value = '';
+                    citySearch.focus();
+                });
+            }
+        });
+        
+        // Détection du thème système
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+        
+        // Vérification des bibliothèques
+        if (typeof Chart !== 'undefined') {
+            console.log('✅ Chart.js chargé');
+        }
+        if (typeof jspdf !== 'undefined') {
+            console.log('✅ jsPDF chargé');
+        }
+    </script>
+</body>
+</html>

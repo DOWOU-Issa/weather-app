@@ -1,0 +1,503 @@
+/* ============================================
+   RESPONSIVE STYLES
+   Support: Mobile, Tablet, Desktop
+   ============================================ */
+
+/* Variables responsives */
+:root {
+    --container-padding: var(--spacing-md);
+    --card-padding: var(--spacing-lg);
+}
+
+/* Large Desktop (1200px et plus) */
+@media (min-width: 1200px) {
+    .app-container {
+        max-width: 1400px;
+        padding: var(--spacing-xl);
+    }
+    
+    .main-content {
+        padding: var(--spacing-2xl) 0;
+    }
+    
+    .weather-details {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .charts-section {
+        padding: var(--spacing-xl);
+    }
+    
+    #weather-chart {
+        height: 450px;
+        max-height: 450px;
+    }
+}
+
+/* Desktop (992px - 1199px) */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .app-container {
+        max-width: 960px;
+        padding: var(--spacing-lg);
+    }
+    
+    .weather-details {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    #weather-chart {
+        height: 400px;
+        max-height: 400px;
+    }
+}
+
+/* Tablet (768px - 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+    :root {
+        --font-size-xl: 22px;
+        --font-size-2xl: 28px;
+        --font-size-3xl: 40px;
+    }
+    
+    .app-container {
+        max-width: 720px;
+        padding: var(--spacing-md);
+    }
+    
+    .main-content {
+        padding: var(--spacing-lg) 0;
+    }
+    
+    .weather-card {
+        padding: var(--spacing-lg);
+    }
+    
+    .weather-details {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-md);
+    }
+    
+    .city-name {
+        font-size: var(--font-size-xl);
+    }
+    
+    .temp-value {
+        font-size: var(--font-size-2xl);
+    }
+    
+    #weather-chart {
+        height: 350px;
+        max-height: 350px;
+    }
+    
+    .chart-controls,
+    .export-buttons {
+        gap: var(--spacing-sm);
+    }
+    
+    .chart-btn,
+    .export-btn {
+        padding: var(--spacing-xs) var(--spacing-md);
+        font-size: var(--font-size-xs);
+    }
+}
+
+/* Mobile Large (480px - 767px) */
+@media (min-width: 480px) and (max-width: 767px) {
+    :root {
+        --font-size-md: 14px;
+        --font-size-lg: 16px;
+        --font-size-xl: 20px;
+        --font-size-2xl: 24px;
+        --font-size-3xl: 32px;
+        --card-padding: var(--spacing-md);
+    }
+    
+    .app-container {
+        padding: var(--spacing-sm);
+    }
+    
+    .main-content {
+        padding: var(--spacing-md) 0;
+    }
+    
+    .weather-card {
+        padding: var(--spacing-md);
+    }
+    
+    .weather-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .city-name {
+        font-size: var(--font-size-xl);
+        justify-content: center;
+    }
+    
+    .weather-icon i {
+        font-size: 48px;
+    }
+    
+    .weather-details {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
+    }
+    
+    .detail-item {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+    
+    .detail-item i {
+        font-size: var(--font-size-lg);
+        width: 32px;
+    }
+    
+    .detail-value {
+        font-size: var(--font-size-md);
+    }
+    
+    #weather-chart {
+        height: 300px;
+        max-height: 300px;
+    }
+    
+    .charts-section {
+        padding: var(--spacing-md);
+    }
+    
+    .history-section {
+        padding: var(--spacing-md);
+    }
+    
+    .history-item {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+}
+
+/* Mobile Small (320px - 479px) */
+@media (max-width: 479px) {
+    :root {
+        --font-size-sm: 12px;
+        --font-size-md: 13px;
+        --font-size-lg: 15px;
+        --font-size-xl: 18px;
+        --font-size-2xl: 22px;
+        --font-size-3xl: 28px;
+        --spacing-sm: 6px;
+        --spacing-md: 12px;
+        --spacing-lg: 18px;
+        --spacing-xl: 24px;
+    }
+    
+    .app-container {
+        padding: var(--spacing-xs);
+    }
+    
+    .main-content {
+        padding: var(--spacing-sm) 0;
+    }
+    
+    .weather-card {
+        padding: var(--spacing-sm);
+        border-radius: var(--border-radius-md);
+    }
+    
+    .weather-header {
+        margin-bottom: var(--spacing-md);
+        padding-bottom: var(--spacing-sm);
+    }
+    
+    .city-name {
+        font-size: var(--font-size-lg);
+    }
+    
+    .city-name i {
+        font-size: var(--font-size-md);
+    }
+    
+    .weather-icon i {
+        font-size: 40px;
+    }
+    
+    .weather-description {
+        font-size: var(--font-size-xs);
+    }
+    
+    .temp-value {
+        font-size: var(--font-size-2xl);
+    }
+    
+    .feels-like {
+        font-size: var(--font-size-sm);
+    }
+    
+    .detail-item {
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+    
+    .detail-item i {
+        font-size: var(--font-size-md);
+        width: 28px;
+    }
+    
+    .detail-label {
+        font-size: 10px;
+    }
+    
+    .detail-value {
+        font-size: var(--font-size-sm);
+    }
+    
+    .weather-advice {
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+    
+    .weather-advice i {
+        font-size: var(--font-size-md);
+    }
+    
+    .weather-advice span {
+        font-size: 11px;
+    }
+    
+    #weather-chart {
+        height: 250px;
+        max-height: 250px;
+    }
+    
+    .charts-section {
+        padding: var(--spacing-sm);
+        border-radius: var(--border-radius-md);
+    }
+    
+    .chart-controls,
+    .export-buttons {
+        flex-wrap: wrap;
+        gap: var(--spacing-xs);
+    }
+    
+    .chart-btn,
+    .export-btn {
+        padding: 4px 10px;
+        font-size: 11px;
+    }
+    
+    .history-section {
+        padding: var(--spacing-sm);
+        border-radius: var(--border-radius-md);
+    }
+    
+    .history-section h2 {
+        font-size: var(--font-size-md);
+    }
+    
+    .history-item {
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+    
+    .history-city {
+        font-size: var(--font-size-xs);
+    }
+    
+    .history-delete {
+        width: 28px;
+        height: 28px;
+    }
+}
+
+/* Support des écrans très hauts (foldables) */
+@media (max-height: 600px) and (orientation: landscape) {
+    .weather-card {
+        padding: var(--spacing-sm);
+    }
+    
+    .weather-header {
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .weather-details {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-sm);
+    }
+    
+    .charts-section {
+        margin-bottom: var(--spacing-md);
+    }
+    
+    #weather-chart {
+        height: 200px;
+        max-height: 200px;
+    }
+}
+
+/* Support des appareils tactiles */
+@media (hover: none) and (pointer: coarse) {
+    /* Augmente la taille des cibles tactiles */
+    button,
+    .theme-toggle,
+    .location-btn,
+    .export-btn,
+    .chart-btn,
+    .history-item,
+    .autocomplete-item {
+        min-height: 44px;
+    }
+    
+    /* Supprime les effets hover sur mobile */
+    .theme-toggle:hover,
+    .location-btn:hover,
+    .export-btn:hover,
+    .chart-btn:hover {
+        transform: none;
+    }
+    
+    /* Ajoute un retour visuel au toucher */
+    button:active,
+    .theme-toggle:active,
+    .location-btn:active {
+        transform: scale(0.96);
+    }
+    
+    .history-item:active,
+    .autocomplete-item:active {
+        background-color: var(--border-color);
+    }
+}
+
+/* Support du mode économie d'énergie */
+@media (prefers-reduced-transparency: reduce) {
+    .header {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        background-color: var(--bg-secondary) !important;
+    }
+    
+    .weather-card,
+    .charts-section,
+    .history-section {
+        box-shadow: none !important;
+        border: 1px solid var(--border-color);
+    }
+}
+
+/* Support des écrans à fort contraste */
+@media (prefers-contrast: high) {
+    :root {
+        --shadow-sm: none;
+        --shadow-md: none;
+        --shadow-lg: none;
+        --shadow-xl: none;
+    }
+    
+    .weather-card,
+    .charts-section,
+    .history-section,
+    .detail-item,
+    .autocomplete-item {
+        border: 2px solid currentColor;
+    }
+    
+    button,
+    .theme-toggle,
+    .location-btn {
+        border: 1px solid currentColor;
+    }
+}
+
+/* Support des écrans à faible luminosité */
+@media (prefers-color-scheme: dark) {
+    /* Les styles sont déjà dans dark.css */
+}
+
+@media (prefers-color-scheme: light) {
+    /* Les styles sont déjà dans light.css */
+}
+
+/* Impression */
+@media print {
+    .header,
+    .search-section,
+    .history-section,
+    .export-buttons,
+    .chart-controls,
+    .theme-toggle,
+    .location-btn,
+    .clear-history {
+        display: none !important;
+    }
+    
+    .weather-card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+    
+    .charts-section {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+    
+    #weather-chart {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+    
+    body {
+        background-color: white;
+        color: black;
+    }
+    
+    a {
+        text-decoration: none;
+        color: black;
+    }
+}
+/* Mobile Export Dropdown */
+@media (max-width: 768px) {
+    .export-trigger {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+    
+    .export-menu {
+        min-width: 140px;
+        right: -10px;
+    }
+    
+    .export-option {
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+    
+    .export-option i {
+        font-size: 14px;
+        width: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .export-trigger {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
+    
+    .export-menu {
+        min-width: 130px;
+        right: -5px;
+    }
+    
+    .export-option {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+    
+    .export-option i {
+        font-size: 12px;
+        width: 16px;
+    }
+}

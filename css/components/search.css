@@ -1,0 +1,203 @@
+/* ============================================
+   SEARCH COMPONENT
+   ============================================ */
+
+.search-section {
+    margin-bottom: var(--spacing-2xl);
+}
+
+.search-container {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Input Wrapper */
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-secondary);
+    border-radius: var(--border-radius-full);
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-normal);
+}
+
+.search-input-wrapper:focus-within {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+/* Search Icon */
+.search-icon {
+    position: absolute;
+    left: var(--spacing-lg);
+    color: var(--text-secondary);
+    font-size: var(--font-size-lg);
+    pointer-events: none;
+}
+
+/* Input */
+#city-search {
+    width: 100%;
+    padding: var(--spacing-md) var(--spacing-xl) var(--spacing-md) calc(var(--spacing-lg) * 2 + var(--spacing-sm));
+    border: 2px solid transparent;
+    border-radius: var(--border-radius-full);
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: var(--font-size-md);
+    transition: all var(--transition-normal);
+}
+
+#city-search:focus {
+    outline: none;
+    border-color: #2196F3;
+}
+
+#city-search::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+/* Clear Button */
+.clear-search {
+    position: absolute;
+    right: var(--spacing-md);
+    width: 32px;
+    height: 32px;
+    border-radius: var(--border-radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    opacity: 0;
+    visibility: hidden;
+}
+
+#city-search:not(:placeholder-shown) ~ .clear-search {
+    opacity: 1;
+    visibility: visible;
+}
+
+.clear-search:hover {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+/* Autocomplete List */
+.autocomplete-list {
+    position: absolute;
+    top: calc(100% + var(--spacing-sm));
+    left: 0;
+    right: 0;
+    background-color: var(--bg-secondary);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-lg);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: var(--z-dropdown);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all var(--transition-normal);
+}
+
+.autocomplete-list.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Autocomplete Item */
+.autocomplete-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-lg);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.autocomplete-item:last-child {
+    border-bottom: none;
+}
+
+.autocomplete-item:hover {
+    background-color: var(--bg-primary);
+}
+
+.autocomplete-item i {
+    color: #2196F3;
+    font-size: var(--font-size-lg);
+    width: 24px;
+    text-align: center;
+}
+
+.autocomplete-info {
+    flex: 1;
+}
+
+.autocomplete-name {
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.autocomplete-name mark {
+    background-color: rgba(33, 150, 243, 0.3);
+    color: inherit;
+    padding: 0;
+    border-radius: var(--border-radius-sm);
+}
+
+.autocomplete-country {
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+}
+
+/* Loading State */
+.search-loading {
+    position: absolute;
+    right: var(--spacing-lg);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border-color);
+    border-top-color: #2196F3;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+/* Responsive Search */
+@media (max-width: 768px) {
+    .search-container {
+        max-width: 100%;
+    }
+    
+    .search-icon {
+        left: var(--spacing-md);
+    }
+    
+    #city-search {
+        padding: var(--spacing-sm) var(--spacing-xl) var(--spacing-sm) calc(var(--spacing-md) * 2 + var(--spacing-sm));
+        font-size: var(--font-size-sm);
+    }
+    
+    .autocomplete-item {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+}
+
+@media (max-width: 480px) {
+    .autocomplete-name {
+        font-size: var(--font-size-sm);
+    }
+    
+    .autocomplete-country {
+        font-size: var(--font-size-xs);
+    }
+}

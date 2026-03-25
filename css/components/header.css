@@ -1,0 +1,207 @@
+/* ============================================
+   HEADER COMPONENT
+   ============================================ */
+
+.header {
+    background-color: var(--bg-secondary);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-md) var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: var(--spacing-md);
+    z-index: var(--z-dropdown);
+    /* Support Safari pour backdrop-filter */
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    /* Fallback pour les navigateurs qui ne supportent pas backdrop-filter */
+    background-color: rgba(255, 255, 255, 0.95);
+}
+
+/* Support du theme sombre pour le header */
+[data-theme="light"] .header {
+    background-color: rgba(255, 255, 255, 0.95);
+}
+
+[data-theme="dark"] .header {
+    background-color: rgba(26, 26, 46, 0.95);
+}
+
+/* Alternative sans backdrop-filter pour meilleure performance */
+@media (prefers-reduced-transparency: reduce) {
+    .header {
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+        background-color: var(--bg-secondary);
+    }
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+/* Logo */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+.logo i {
+    color: #2196F3;
+    font-size: var(--font-size-2xl);
+}
+
+.logo span {
+    background: linear-gradient(135deg, #2196F3, #1976D2);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Header Controls */
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--border-radius-full);
+    background-color: var(--bg-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-xl);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    /* Support Safari pour les transitions */
+    -webkit-transition: all var(--transition-normal);
+    transition: all var(--transition-normal);
+}
+
+.theme-toggle:hover {
+    -webkit-transform: scale(1.05);
+    transform: scale(1.05);
+    box-shadow: var(--shadow-md);
+}
+
+.theme-toggle:active {
+    -webkit-transform: scale(0.95);
+    transform: scale(0.95);
+}
+
+.theme-toggle .fa-sun,
+.theme-toggle .fa-moon,
+.theme-toggle .fa-adjust {
+    position: absolute;
+    -webkit-transition: all var(--transition-normal);
+    transition: all var(--transition-normal);
+}
+
+.theme-toggle .fa-sun {
+    color: #FFC107;
+}
+
+.theme-toggle .fa-moon {
+    color: #9C27B0;
+}
+
+.theme-toggle .fa-adjust {
+    color: #2196F3;
+}
+
+/* Location Button */
+.location-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--border-radius-full);
+    background-color: var(--bg-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-xl);
+    box-shadow: var(--shadow-sm);
+    color: #2196F3;
+    cursor: pointer;
+    -webkit-transition: all var(--transition-normal);
+    transition: all var(--transition-normal);
+}
+
+.location-btn:hover {
+    -webkit-transform: scale(1.05);
+    transform: scale(1.05);
+    box-shadow: var(--shadow-md);
+    color: #1976D2;
+}
+
+.location-btn:active {
+    -webkit-transform: scale(0.95);
+    transform: scale(0.95);
+}
+
+/* Support pour les appareils tactiles */
+@media (hover: hover) {
+    .theme-toggle:hover,
+    .location-btn:hover {
+        -webkit-transform: scale(1.05);
+        transform: scale(1.05);
+    }
+}
+
+@media (hover: none) {
+    .theme-toggle:active,
+    .location-btn:active {
+        -webkit-transform: scale(0.95);
+        transform: scale(0.95);
+    }
+}
+
+/* Responsive Header */
+@media (max-width: 768px) {
+    .header {
+        padding: var(--spacing-sm) var(--spacing-md);
+        top: var(--spacing-sm);
+    }
+    
+    .logo span {
+        display: none;
+    }
+    
+    .logo i {
+        font-size: var(--font-size-xl);
+    }
+    
+    .theme-toggle,
+    .location-btn {
+        width: 40px;
+        height: 40px;
+        font-size: var(--font-size-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        padding: var(--spacing-xs) var(--spacing-md);
+    }
+    
+    .header-controls {
+        gap: var(--spacing-sm);
+    }
+    
+    .theme-toggle,
+    .location-btn {
+        width: 36px;
+        height: 36px;
+        font-size: var(--font-size-md);
+    }
+}

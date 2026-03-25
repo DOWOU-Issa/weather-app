@@ -1,0 +1,118 @@
+/* ============================================
+   DARK THEME
+   ============================================ */
+
+[data-theme="dark"] {
+    /* Couleurs principales */
+    --bg-primary: #1a1a2e;
+    --bg-secondary: #16213e;
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a0;
+    --card-bg: #0f3460;
+    --border-color: #2a2a3e;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    
+    /* Couleurs des variables RGB pour la transparence */
+    --bg-primary-rgb: 26, 26, 46;
+    --bg-secondary-rgb: 22, 33, 62;
+    --text-primary-rgb: 255, 255, 255;
+    --text-secondary-rgb: 160, 160, 160;
+    
+    /* Couleurs d'accentuation */
+    --accent-primary: #2196F3;
+    --accent-primary-dark: #1976D2;
+    --accent-secondary: #FFC107;
+    --accent-success: #4CAF50;
+    --accent-error: #F44336;
+    --accent-warning: #FF9800;
+    --accent-info: #2196F3;
+    
+    /* Dégradés */
+    --gradient-primary: linear-gradient(135deg, #2196F3, #1976D2);
+    --gradient-card: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+    
+    /* Ombres spécifiques au thème */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.25);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.3);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.35);
+}
+
+/* Support des propriétés personnalisées pour les anciens navigateurs */
+@supports not (--custom-properties: 1) {
+    [data-theme="dark"] {
+        /* Fallback pour les navigateurs sans CSS variables */
+        background-color: #1a1a2e;
+        color: #ffffff;
+    }
+}
+
+/* Amélioration du contraste pour l'accessibilité */
+[data-theme="dark"] .weather-card {
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .detail-item {
+    background-color: rgba(26, 26, 46, 0.8);
+}
+
+[data-theme="dark"] .autocomplete-item {
+    border-bottom-color: var(--border-color);
+}
+
+[data-theme="dark"] .autocomplete-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+    background-color: rgba(26, 26, 46, 0.8);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] input:focus,
+[data-theme="dark"] textarea:focus,
+[data-theme="dark"] select:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.2);
+}
+
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+    color: rgba(160, 160, 160, 0.7);
+}
+
+/* Support des liens */
+[data-theme="dark"] a {
+    color: var(--accent-primary);
+}
+
+[data-theme="dark"] a:hover {
+    color: #64B5F6;
+}
+
+/* Support des boutons */
+[data-theme="dark"] button:active {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Amélioration de la lisibilité des graphiques */
+[data-theme="dark"] canvas {
+    filter: brightness(0.9);
+}
+
+/* Support du scrollbar en mode sombre */
+[data-theme="dark"] ::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}
